@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct helpmecookApp: App {
+    let recipes: [Recipe] = Recipe.sampleData
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RecipesView(recipes: recipes)
         }
     }
 }
