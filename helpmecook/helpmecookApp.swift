@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct helpmecookApp: App {
+ struct helpmecookApp: App {
     let recipes: [Recipe] = Recipe.sampleData
     
     var body: some Scene {

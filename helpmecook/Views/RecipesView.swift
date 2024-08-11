@@ -13,7 +13,7 @@ struct RecipesView: View {
     var body: some View {
         NavigationStack {
             List(recipes) { recipe in
-                NavigationLink(destination: Text(recipe.title)){
+                NavigationLink(destination: RecipeDetailView(recipe: recipe)){
                     RecipeRowView(recipe: recipe)
                 }
                 .listRowBackground(recipe.backgroundColor)
