@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecipeDetailView: View {
-    var recipe: Recipe
+    @StateObject var recipe: Recipe
     
     var body: some View {
         VStack{
@@ -25,23 +25,37 @@ struct RecipeDetailView: View {
                 }
                 
                 Section(header: Text("Step-by-step").font(.headline)) {
-                    ForEach(Array(recipe.stepByStep.enumerated()), id: \.element) { index, step in
-                        Text("\(index + 1). \(step)")
+                    ForEach(recipe.stepByStep.indices, id: \.self) { index in
+                        Text("\(index + 1). \(recipe.stepByStep[index].title)")
                     }
+
                 }
             }
             .navigationTitle(recipe.title)
             
-            Button {
-                
-            } label: {
-                Text("Begin recipe")
-                    .font(.title3)
-                    .padding()
-                    .background(.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-            }.padding()
+            NavigationLink(destination: StepView(
+                allSteps: recipe.stepByStep,
+                indexOfCurrentStep: 0,
+                currentStep: recipe.stepByStep[0])){
+                    Text("Begin recipe")
+                        .font(.title3)
+                        .padding()
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }.padding()
+            
+//            Button {
+//                
+//            } label: {
+//                Text("Begin recipe")
+//                    .font(.title3)
+//                    .padding()
+//                    .background(.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(8)
+//            }
+            
         }
         
     }
