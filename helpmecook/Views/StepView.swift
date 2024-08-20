@@ -8,19 +8,21 @@
 import SwiftUI
 
 struct StepView: View {
+    @Environment(\.dismiss) var dismiss
+    
     let allSteps: [Step]
     var indexOfCurrentStep: Int
     @ObservedObject var currentStep: Step
     
     var indexOfNextStep: Int {
         let nextIndex =
-            indexOfCurrentStep == allSteps.count-1 ? allSteps.count-1 : indexOfCurrentStep + 1
+        indexOfCurrentStep == allSteps.count-1 ? allSteps.count-1 : indexOfCurrentStep + 1
         return nextIndex
     }
     
     var indexOfPreviousStep: Int {
-        let previousIndex = 
-            indexOfCurrentStep == 0 ? indexOfCurrentStep - 1 : 0
+        let previousIndex =
+        indexOfCurrentStep == 0 ? indexOfCurrentStep - 1 : 0
         return previousIndex
     }
     
@@ -32,6 +34,9 @@ struct StepView: View {
             
             Spacer()
             
+            // TODO: fix this instructions toggle
+            // It does not get checked in the preview
+            // its weird.
             VStack (alignment: .leading){
                 Text("Instructions")
                     .font(.title)
@@ -49,39 +54,34 @@ struct StepView: View {
             Spacer()
             
             HStack {
-                
-                // TODO - fix this, isso ta criando toda hora uma view nova
-                // toda hora o previous esta adicionando no topo da navegacao
-                // uma nova view de StepView
-                // descobrir como usar o dismiss
                 if indexOfCurrentStep != 0 {
-                    NavigationLink(destination: StepView(
-                        allSteps: allSteps,
-                        indexOfCurrentStep: indexOfPreviousStep,
-                        currentStep: allSteps[indexOfPreviousStep])){
+                    Button {
+                        dismiss()
+                    } label: {
                         Text("Previous step")
                             .font(.title3)
                             .padding()
                             .background(.blue)
                             .foregroundColor(.white)
                             .cornerRadius(8)
-                    }.padding()
+                    }
+                    
                 }
-              
+                
                 if indexOfCurrentStep != allSteps.count-1 {
                     NavigationLink(destination: StepView(
                         allSteps: allSteps,
                         indexOfCurrentStep: indexOfNextStep,
                         currentStep: allSteps[indexOfNextStep])){
-                        Text("Next step")
-                            .font(.title3)
-                            .padding()
-                            .background(.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }.padding()
+                            Text("Next step")
+                                .font(.title3)
+                                .padding()
+                                .background(.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }.padding()
                 }
-              
+                
             }
             
         }
