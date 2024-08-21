@@ -34,7 +34,7 @@ struct RecipeDetailView: View {
             .navigationTitle(recipe.title)
             
             NavigationLink(destination: StepView(
-                allSteps: recipe.stepByStep,
+                recipe: recipe,
                 indexOfCurrentStep: 0,
                 currentStep: recipe.stepByStep[0])){
                     Text("Begin recipe")
@@ -44,18 +44,6 @@ struct RecipeDetailView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }.padding()
-            
-//            Button {
-//                
-//            } label: {
-//                Text("Begin recipe")
-//                    .font(.title3)
-//                    .padding()
-//                    .background(.blue)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(8)
-//            }
-            
         }
         
     }

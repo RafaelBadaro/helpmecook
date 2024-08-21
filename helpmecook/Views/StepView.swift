@@ -9,10 +9,18 @@ import SwiftUI
 
 struct StepView: View {
     @Environment(\.dismiss) var dismiss
+    // TODO - Review what variables I need for this
     
-    let allSteps: [Step]
+    @ObservedObject var recipe: Recipe
+    var allSteps: [Step] {
+        recipe.stepByStep
+    }
     var indexOfCurrentStep: Int
     @ObservedObject var currentStep: Step
+    
+    var showBackButton: Bool {
+        indexOfCurrentStep == 0 ? false : true
+    }
     
     var indexOfNextStep: Int {
         let nextIndex =
@@ -70,7 +78,7 @@ struct StepView: View {
                 
                 if indexOfCurrentStep != allSteps.count-1 {
                     NavigationLink(destination: StepView(
-                        allSteps: allSteps,
+                        recipe: recipe,
                         indexOfCurrentStep: indexOfNextStep,
                         currentStep: allSteps[indexOfNextStep])){
                             Text("Next step")
@@ -82,9 +90,20 @@ struct StepView: View {
                         }.padding()
                 }
                 
+                if indexOfCurrentStep == allSteps.count-1 {
+                    NavigationLink(destination: RecipeCompletedView()){
+                            Text("Complete Recipe")
+                                .font(.title3)
+                                .padding()
+                                .background(.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }.padding()
+                }
+                
             }
-            
         }
+        .navigationBarBackButtonHidden(showBackButton)
     }
 }
 
@@ -104,7 +123,7 @@ struct iOSCheckboxToggleStyle: ToggleStyle {
 #Preview {
     NavigationStack {
         StepView(
-            allSteps: Step.chickenBreastSteps,
+            recipe: Recipe.sampleData[0],
             indexOfCurrentStep: 0,
             currentStep: Step.chickenBreastSteps[0])
     }
