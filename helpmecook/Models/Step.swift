@@ -11,7 +11,7 @@ class Step: Identifiable, ObservableObject {
     let id: UUID
     var title: String
     var note: String
-    var instructions: [Instruction]
+    @Published var instructions: [Instruction]
     
     init(id: UUID = UUID(), title: String, note: String, instructions: [Instruction]) {
         self.id = id
@@ -21,15 +21,10 @@ class Step: Identifiable, ObservableObject {
     }
 }
 
-class Instruction: Identifiable {
+struct Instruction: Identifiable {
     let id = UUID()
-    let name: String
-    var isChecked = false
-    
-    init(name: String, isChecked: Bool = false) {
-        self.name = name
-        self.isChecked = isChecked
-    }
+    var name: String
+    var isChecked: Bool = false // setting this so I dont need to pass onto the sample data
 }
 
 extension Step {
@@ -97,19 +92,24 @@ extension Step {
              instructions: [Instruction(name: "Chop lettuce")]),
         Step(title: "Toss the lettuce with Caesar dressing.",
              note: "Coat the lettuce evenly with dressing.",
-             instructions: [Instruction(name: "Toss lettuce"), Instruction(name: "Add Caesar dressing")]),
+             instructions: [Instruction(name: "Toss lettuce"), 
+                            Instruction(name: "Add Caesar dressing")]),
         Step(title: "Add croutons, parmesan cheese, and anchovies.",
              note: "Distribute the ingredients evenly.",
-             instructions: [Instruction(name: "Add croutons"), Instruction(name: "Add parmesan cheese"), Instruction(name: "Add anchovies")]),
+             instructions: [Instruction(name: "Add croutons"), 
+                            Instruction(name: "Add parmesan cheese"),
+                            Instruction(name: "Add anchovies")]),
         Step(title: "Mix well and serve immediately.",
              note: "Serve right away for best texture.",
-             instructions: [Instruction(name: "Mix well"), Instruction(name: "Serve immediately")])
+             instructions: [Instruction(name: "Mix well"), 
+                            Instruction(name: "Serve immediately")])
     ]
 
     static let grilledRibeyeSteps: [Step] = [
         Step(title: "Season the ribeye steak with salt, pepper, and garlic powder.",
              note: "Season both sides evenly.",
-             instructions: [Instruction(name: "Season with salt"), Instruction(name: "Season with pepper"), Instruction(name: "Season with garlic powder")]),
+             instructions: [Instruction(name: "Season with salt"), 
+                            Instruction(name: "Season with pepper"), Instruction(name: "Season with garlic powder")]),
         Step(title: "Heat the olive oil in a grill pan over high heat.",
              note: "Ensure the oil is hot before adding the steak.",
              instructions: [Instruction(name: "Add olive oil to pan"), Instruction(name: "Heat over high heat")]),

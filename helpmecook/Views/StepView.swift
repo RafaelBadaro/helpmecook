@@ -9,7 +9,6 @@ import SwiftUI
 
 struct StepView: View {
     @Environment(\.dismiss) var dismiss
-    // TODO - Review what variables I need for this
     
     @ObservedObject var recipe: Recipe
     var allSteps: [Step] {
@@ -42,18 +41,19 @@ struct StepView: View {
             
             Spacer()
             
-            // TODO: fix this instructions toggle
-            // It does not get checked in the preview
-            // its weird.
             VStack (alignment: .leading){
                 Text("Instructions")
                     .font(.title)
                 
                 ForEach($currentStep.instructions) { $instruction in
-                    Toggle(isOn: $instruction.isChecked){
+                    Button {
+                        instruction.isChecked.toggle()
+                    } label: {
+                        Image(systemName: instruction.isChecked ? "checkmark.square" : "square")
                         Text(instruction.name)
+                            .fontWeight(.bold)
                     }
-                    .toggleStyle(iOSCheckboxToggleStyle())
+                    .font(.title)
                 }
                 
             }
@@ -104,19 +104,6 @@ struct StepView: View {
             }
         }
         .navigationBarBackButtonHidden(showBackButton)
-    }
-}
-
-struct iOSCheckboxToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        Button(action: {
-            configuration.isOn.toggle()
-        }, label: {
-            HStack {
-                Image(systemName: configuration.isOn ? "checkmark.square" : "square")
-                configuration.label
-            }
-        })
     }
 }
 
