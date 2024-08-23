@@ -33,6 +33,10 @@ struct StepView: View {
         return previousIndex
     }
     
+     var allInstructionsChecked: Bool {
+        currentStep.instructions.allSatisfy(\.isChecked)
+    }
+    
     var body: some View {
         VStack {
             Text("Step \(indexOfCurrentStep + 1): \(currentStep.title)")
@@ -44,17 +48,33 @@ struct StepView: View {
             VStack (alignment: .leading){
                 Text("Instructions")
                     .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(
+                        allInstructionsChecked ?
+                            .green.opacity(0.7) :
+                            .black
+                    ))
                 
-                // TODO - animate when all toggles are checked
                 ForEach($currentStep.instructions) { $instruction in
                     Button {
                         instruction.isChecked.toggle()
                     } label: {
-                        Image(systemName: instruction.isChecked ? "checkmark.square" : "square")
+                        Image(systemName: instruction.isChecked ? "checkmark.circle" : "circle")
+                            .foregroundColor(Color(
+                                allInstructionsChecked ?
+                                    .green.opacity(0.7) :
+                                    .black
+                            ))
                         Text(instruction.name)
-                            .fontWeight(.bold)
+                            .foregroundColor(Color(
+                                allInstructionsChecked ?
+                                    .green.opacity(0.7) :
+                                    .black
+                            ))
+                           
                     }
                     .font(.title)
+                    .padding(3)
                 }
                 
             }
@@ -77,7 +97,6 @@ struct StepView: View {
                     
                 }
                 
-                // TODO - animate and change color slightly when all toggles are checked
                 if indexOfCurrentStep != allSteps.count-1 {
                     NavigationLink(destination: StepView(
                         recipe: recipe,
@@ -86,14 +105,18 @@ struct StepView: View {
                             Text("Next step")
                                 .font(.title3)
                                 .padding()
-                                .background(.blue)
+                                .background(Color(
+                                    allInstructionsChecked ?
+                                        .green :
+                                        .blue
+                                ))
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
                         }.padding()
                 }
                 
                 if indexOfCurrentStep == allSteps.count-1 {
-                    NavigationLink(destination: RecipeCompletedView()){
+                    NavigationLink(destination: RecipeCompletedView(recipe: recipe)){
                             Text("Complete Recipe")
                                 .font(.title3)
                                 .padding()
