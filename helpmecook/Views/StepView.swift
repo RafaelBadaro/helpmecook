@@ -51,7 +51,7 @@ struct StepView: View {
                     .fontWeight(.bold)
                     .foregroundColor(Color(
                         allInstructionsChecked ?
-                            .green.opacity(0.7) :
+                            .green :
                             .black
                     ))
                 
@@ -62,13 +62,13 @@ struct StepView: View {
                         Image(systemName: instruction.isChecked ? "checkmark.circle" : "circle")
                             .foregroundColor(Color(
                                 allInstructionsChecked ?
-                                    .green.opacity(0.7) :
+                                    .green :
                                     .black
                             ))
                         Text(instruction.name)
                             .foregroundColor(Color(
                                 allInstructionsChecked ?
-                                    .green.opacity(0.7) :
+                                    .green :
                                     .black
                             ))
                            
@@ -129,6 +129,7 @@ struct StepView: View {
             }
         }
         .navigationBarBackButtonHidden(showBackButton)
+        .background(.yellow.opacity(0.2))
     }
 }
 
